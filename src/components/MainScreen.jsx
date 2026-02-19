@@ -14,7 +14,7 @@ export function MainScreen({ onNavigateBlog }) {
     {
       id: 1,
       name: 'AGENCIA DE PUBLICIDAD Y PROMOCION DIGITAL GRAVITAS',
-      image: '../public/gravitas.png',
+      image: `${import.meta.env.BASE_URL}gravitas.png`,
       github: '',
       description: 'Plataforma integra para el desarrollo en el area de marketing digital para abogados.',
       modules: [
@@ -23,7 +23,7 @@ export function MainScreen({ onNavigateBlog }) {
     {
       id: 2,
       name: 'GYM TRACKER',
-      image: '../public/gymtrack.png',
+      image: `${import.meta.env.BASE_URL}gymtrack.png`,
       github: '',
       description: 'Una simple app para poder registrar mis entrenamientos, en vez de realizarlo en la aplicacion de notas',
       modules: [
@@ -41,7 +41,7 @@ export function MainScreen({ onNavigateBlog }) {
     {
       id: 3,
       name: 'DEMETER PROTOCOL',
-      image: '../public/demeter.png',
+      image: `${import.meta.env.BASE_URL}demeter.png`,
       github: '',
       description: 'Un videojuego en tercera persona en el motor Godot basado en la idea de restauracion del ecosistema',
       modules: [
@@ -58,7 +58,7 @@ export function MainScreen({ onNavigateBlog }) {
     {
       id: 4,
       name: 'RITMO FIT MOBILE',
-      image: '../public/ritmofit.png',
+      image: `${import.meta.env.BASE_URL}ritmofit.png`,
       github: 'https://github.com/sofiacanzian/Apps_Grupo9_ReactNative',
       description: 'Proyecto universitario gestor de ingresos, clases y ratings de un gimnasio. Hecho con expo.',
       modules: [
@@ -67,7 +67,7 @@ export function MainScreen({ onNavigateBlog }) {
     {
       id: 5,
       name: 'Portfolio',
-      image: '../public/santrav.png',
+      image: `${import.meta.env.BASE_URL}Santrav.png`,
       github: 'https://github.com/santino/edu-platform',
       description: 'Una pagina web en donde pueda trackear mis proyectos de manera rapida y sencilla.',
       modules: [

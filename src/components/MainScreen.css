@@ -304,6 +304,7 @@ a, button, .gh-btn, * {
   grid-template-columns: repeat(2, 1fr);
   gap: 40px;
   padding-bottom: 100px;
+  min-height: 600px; /* Fija un tamaño mínimo para que el contenedor no se achique */
 }
 
 .project-card {
