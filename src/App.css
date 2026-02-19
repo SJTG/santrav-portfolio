@@ -1,0 +1,43 @@
+/* 1. RESET GLOBAL */
+html, body {
+  margin: 0;
+  padding: 0;
+  background-color: #000; /* Fondo negro puro para el estilo moderno */
+  color: #fff;
+  /* Permitimos que el scroll sea natural */
+  overflow-x: hidden; 
+  overflow-y: auto;
+  height: auto;
+  min-height: 100%;
+  /* Tipografía base moderna */
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* 2. ROOT DE REACT */
+#root {
+  width: 100%;
+  display: block; /* Cambiamos flex por block para que los componentes se apilen */
+  margin: 0;
+  padding: 0;
+}
+
+/* 3. UTILIDADES MODERNAS */
+/* Este estilo reemplaza lo que tenías en .main-screen para que no centre todo al medio */
+.modern-layout {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+/* Forzar que el cursor nativo desaparezca en todos lados */
+* {
+  cursor: none !important;
+}
+
+/* Evitar que las imágenes se rompan */
+img {
+  max-width: 100%;
+  display: block;
+}

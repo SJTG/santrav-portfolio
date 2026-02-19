@@ -1,0 +1,109 @@
+.boot-sequence {
+  position: fixed;
+  top: 0; 
+  left: 0; 
+  width: 100vw; 
+  height: 100vh;
+  background-color: #000;
+  color: #d0d0d0;
+  font-family: 'Courier New', Courier, monospace;
+  z-index: 9999;
+  overflow: hidden;
+  /* Aseguramos que el contenido se comporte bien en el eje vertical */
+  display: flex;
+  flex-direction: column;
+  cursor: none !important;
+}
+
+/* Forzamos que nada muestre el cursor nativo */
+.boot-sequence a, .boot-sequence button, * {
+  cursor: none !important;
+}
+
+.inner-content {
+  padding: 60px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start; /* Mantiene el TEXTO de la terminal a la izquierda */
+  width: 100%;
+  height: 100%;
+  box-sizing: border-box; /* CRUCIAL: evita que el padding rompa el centrado */
+}
+
+/* === HEADER FIX: Forzamos el centrado === */
+.logo-header-minimal {
+  width: 100%; /* Ocupa todo el ancho disponible */
+  display: flex; /* Usamos flex interno para controlar sus hijos */
+  flex-direction: column;
+  align-items: center; /* Centra horizontalmente la imagen y el texto */
+  justify-content: center;
+  margin-bottom: 60px;
+  text-align: center;
+}
+
+.boot-logo-large {
+  width: 300px; 
+  height: auto;
+  max-height: 200px;
+  opacity: 0.7;
+  margin-bottom: 15px;
+  display: block; /* Asegura que la imagen sea un bloque para poder centrarse */
+}
+
+.bios-brand-text {
+  font-size: 14px;
+  letter-spacing: 4px;
+  color: #ffffff;
+  opacity: 0.8;
+  margin: 0;
+  text-transform: uppercase;
+}
+
+/* === TEXTO DE LA BIOS (Alineado a la izquierda) === */
+.text-section {
+  width: 100%;
+  text-align: left;
+}
+
+.boot-line {
+  font-size: 18px;
+  line-height: 1.3;
+  min-height: 1.3em;
+  white-space: pre;
+  text-transform: uppercase;
+  color: #d0d0d0;
+}
+
+.cursor {
+  animation: blink 0.5s step-end infinite;
+  display: inline-block;
+  vertical-align: bottom;
+}
+
+/* === EFECTOS CRT === */
+.crt-overlay {
+  position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+  pointer-events: none; z-index: 100;
+}
+
+.scanlines {
+  width: 100%; height: 100%;
+  background: repeating-linear-gradient(0deg, rgba(0, 0, 0, 0.4) 0px, rgba(0, 0, 0, 0.4) 1px, transparent 1px, transparent 2px);
+}
+
+.rolling-bar {
+  position: absolute; width: 100%; height: 15%;
+  background: linear-gradient(rgba(255,255,255,0), rgba(255,255,255,0.02), rgba(255,255,255,0));
+  animation: roll 12s linear infinite;
+}
+
+.screen-curve {
+  width: 100%; height: 100%; position: absolute; top: 0; left: 0;
+  box-shadow: inset 0 0 120px #000;
+  background: radial-gradient(circle at center, transparent 40%, rgba(0,0,0,0.5) 100%);
+  transform: scale(1.05);
+}
+
+@keyframes roll { from { transform: translateY(-100%); } to { transform: translateY(100vh); } }
+@keyframes blink { 50% { opacity: 0; } }
+.boot-sequence.fade-out { opacity: 0; transition: opacity 1.2s ease-in-out; }
