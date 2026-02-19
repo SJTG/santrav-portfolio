@@ -87,7 +87,7 @@ export function BootSequence({ onBootComplete }) {
       
       <div className="inner-content">
         <div className="logo-header-minimal">
-          <img src={`${import.meta.env.BASE_URL}Santrav.png`} alt="SANTRAV" className="boot-logo-large" />
+          <img src={`${import.meta.env.BASE_URL}Santrav-removebg-preview.png`} alt="SANTRAV" className="boot-logo-large" />
           <div className="bios-brand-container">
             <p className="bios-brand-text">SANTRAV-SOFTWARE & HARDWARE</p>
             <p className="bios-brand-sub">A COMPANY MADE BY ONE MAN WHO LOVES TECHNOLOGY :)</p>

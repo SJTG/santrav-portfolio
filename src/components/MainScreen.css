@@ -304,11 +304,11 @@ a, button, .gh-btn, * {
   grid-template-columns: repeat(2, 1fr);
   gap: 40px;
   padding-bottom: 100px;
-  min-height: 600px; /* Fija un tamaño mínimo para que el contenedor no se achique */
+  min-height: 1200px; /* Fija un tamaño mínimo para que el contenedor no se achique */
 }
 
 .project-card {
-  background: #fff; /* Fondo blanco: aquí el cursor se verá NEGRO */
+  background: #fff;
   color: #000;
   display: flex;
   flex-direction: column;
@@ -318,9 +318,10 @@ a, button, .gh-btn, * {
   animation: fadeInUp 1s ease-out forwards;
   animation-delay: 0.3s;
   animation-fill-mode: both;
-  height: 500px; 
+  height: 500px;
   min-height: 500px;
 }
+
 
 /* Animaciones para herramientas */
 .tools-section {
@@ -502,7 +503,9 @@ a, button, .gh-btn, * {
 .img-container {
   position: relative;
   width: 100%;
-  height: 300px;
+  height: 250px;
+  min-height: 250px; 
+  flex-shrink: 0;    
   background: #111;
   overflow: hidden;
 }
@@ -531,7 +534,13 @@ a, button, .gh-btn, * {
   font-size: 14px;
 }
 
-.card-info { padding: 30px; }
+.card-info {
+  padding: 30px;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  overflow: hidden;
+}
 
 .card-top {
   display: flex;
@@ -575,6 +584,47 @@ a, button, .gh-btn, * {
   gap: 10px;
   margin-top: 20px;
   flex-wrap: wrap;
+}
+
+.module-row-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 20px;
+}
+
+.module-arrow {
+  background: transparent;
+  border: 1px solid #000;
+  color: #000;
+  width: 28px;
+  height: 28px;
+  min-width: 28px;
+  font-size: 16px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+  flex-shrink: 0;
+}
+
+
+.module-arrow:hover:not(:disabled) {
+  background: #000;
+  color: #fff;
+}
+
+.module-arrow:disabled {
+  opacity: 0.2;
+  cursor: not-allowed;
+}
+
+.module-row {
+  display: flex;
+  gap: 10px;
+  overflow: hidden;
+  flex: 1;
 }
 
 .dot {
