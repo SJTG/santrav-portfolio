@@ -318,8 +318,8 @@ a, button, .gh-btn, * {
   animation: fadeInUp 1s ease-out forwards;
   animation-delay: 0.3s;
   animation-fill-mode: both;
-  height: 100%;
-  min-height: 450px;
+  height: 500px; 
+  min-height: 500px;
 }
 
 /* Animaciones para herramientas */

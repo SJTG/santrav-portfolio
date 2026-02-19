@@ -68,7 +68,7 @@ export function MainScreen({ onNavigateBlog }) {
       id: 5,
       name: 'Portfolio',
       image: `${import.meta.env.BASE_URL}Santrav.png`,
-      github: 'https://github.com/santino/edu-platform',
+      github: 'https://github.com/SJTG/santrav-portfolio',
       description: 'Una pagina web en donde pueda trackear mis proyectos de manera rapida y sencilla.',
       modules: [
       ]
