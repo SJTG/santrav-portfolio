@@ -29,7 +29,7 @@ export function AboutMe({ id }) {
             <div className="photo-placeholder">
               <span className="placeholder-text">Mi Foto</span>
               <img 
-                src="/profile.jpg" 
+                src={`${import.meta.env.BASE_URL}profile.png`} 
                 alt="Santino" 
                 onError={(e) => e.target.style.display = 'none'}
               />

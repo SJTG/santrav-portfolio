@@ -223,7 +223,7 @@ export function MainScreen({ onNavigateBlog }) {
       <main className="content-stack">
         <section className="hero">
           <h1 className="title">SANTINO</h1>
-          <p className="subtitle">ARCHITECTURE & DEVELOPMENT</p>
+          <p className="subtitle">LICENCIADO EN GESTION DE TECNOLOGIA DE LA INFORMACION</p>
         </section>
 
         <AboutMe id="sobre-mi" />
