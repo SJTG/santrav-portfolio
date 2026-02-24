@@ -2,7 +2,7 @@ import { useState } from 'react';
 
 export function ProjectCard({ project, calculateProgress }) {
   const [scrollIndex, setScrollIndex] = useState(0);
-  const visibleCount = 3; // cuántos módulos se ven a la vez
+  const visibleCount = 3; 
 
   const progress = calculateProgress(project.modules);
   const isCompleted = progress === 100;
