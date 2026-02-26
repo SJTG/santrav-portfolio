@@ -24,18 +24,18 @@ export function MainScreen({ onNavigateBlog }) {
       id: 2,
       name: 'GYM TRACKER COLOSSUS',
       image: `${import.meta.env.BASE_URL}gymtrack.png`,
-      github: '',
-      description: 'Una simple app para poder registrar mis entrenamientos, en vez de realizarlo en la aplicacion de notas',
+      github: 'https://github.com/SJTG/Gym-Tracker-Colossus',
+      description: 'Una simple app para poder registrar mis entrenamientos, en vez de realizarlo en la aplicacion de notas. Todavia estoy pensando un mejor nombre',
       modules: [
         { name: 'Creador de ejercicios', completed: true },
         { name: 'Constructor de rutinas', completed: true },
         { name: 'Asignador de calendario', completed: true },
         { name: 'Visualizador de sets', completed: true },
-        { name: 'Input de carga', completed: false },
-        { name: 'Checklist de progreso', completed: false },
-        { name: 'Cronometro de ejercicios', completed: false },
-        { name: 'Cronometro de descanso', completed: false },
-        { name: 'Base de datos', completed: false }
+        { name: 'Input de carga', completed: true },
+        { name: 'Checklist de progreso', completed: true },
+        { name: 'Cronometro de ejercicios', completed: true },
+        { name: 'Cronometro de descanso', completed: true },
+        { name: 'Base de datos', completed: true }
       ]
     },
     {
