@@ -1,50 +1,81 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
+import './Cursor.css';
 
 export function Cursor({ isPointer }) {
-  const [cursorPos, setCursorPos] = useState({ x: 0, y: 0 });
   const [isMobile, setIsMobile] = useState(false);
+  const [isVisible, setIsVisible] = useState(false);
+  const dotRef = useRef(null);
+  const ringRef = useRef(null);
+  
+  const mousePos = useRef({ x: -100, y: -100 });
+  const ringPos = useRef({ x: -100, y: -100 });
+  const isPointerRef = useRef(isPointer);
+  isPointerRef.current = isPointer;
 
   useEffect(() => {
-    // Detectar si es dispositivo móvil
     const checkIfMobile = () => {
-      const userAgent = navigator.userAgent || navigator.vendor || window.opera;
-      const isMobileDevice = /android|webos|iphone|ipad|ipod|blackberry|iemobile|opera mini/i.test(userAgent.toLowerCase());
-      const hasTouchSupport = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
-      setIsMobile(isMobileDevice || hasTouchSupport);
+      const isTouch = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+      setIsMobile(isTouch || window.innerWidth < 768);
     };
 
     checkIfMobile();
-    
-    // Escuchar cambios de tamaño de pantalla para detectar rotación o cambios de orientación
     window.addEventListener('resize', checkIfMobile);
-    window.addEventListener('orientationchange', checkIfMobile);
-    
-    return () => {
-      window.removeEventListener('resize', checkIfMobile);
-      window.removeEventListener('orientationchange', checkIfMobile);
-    };
+    return () => window.removeEventListener('resize', checkIfMobile);
   }, []);
 
   useEffect(() => {
-    if (isMobile) return; // No mover el cursor en dispositivos móviles
-    
-    const moveCursor = (e) => setCursorPos({ x: e.clientX, y: e.clientY });
-    window.addEventListener('mousemove', moveCursor);
-    return () => window.removeEventListener('mousemove', moveCursor);
-  }, [isMobile]);
+    if (isMobile) return;
 
-  // Ocultar cursor completamente en móviles
-  if (isMobile) {
-    return null;
-  }
+    let animId;
+
+    const onMouseMove = (e) => {
+      mousePos.current.x = e.clientX;
+      mousePos.current.y = e.clientY;
+      if (!isVisible) setIsVisible(true);
+      
+      if (dotRef.current) {
+        dotRef.current.style.transform = `translate3d(${e.clientX}px, ${e.clientY}px, 0)`;
+      }
+    };
+
+    const onMouseLeave = () => setIsVisible(false);
+
+    window.addEventListener('mousemove', onMouseMove);
+    document.addEventListener('mouseleave', onMouseLeave);
+
+    const animate = () => {
+      // Lerp smooth follow for ring
+      ringPos.current.x += (mousePos.current.x - ringPos.current.x) * 0.22;
+      ringPos.current.y += (mousePos.current.y - ringPos.current.y) * 0.22;
+
+      if (ringRef.current) {
+        ringRef.current.style.transform = `translate3d(${ringPos.current.x}px, ${ringPos.current.y}px, 0) scale(${isPointerRef.current ? 1.5 : 1})`;
+      }
+
+      animId = requestAnimationFrame(animate);
+    };
+
+    animId = requestAnimationFrame(animate);
+
+    return () => {
+      window.removeEventListener('mousemove', onMouseMove);
+      document.removeEventListener('mouseleave', onMouseLeave);
+      cancelAnimationFrame(animId);
+    };
+  }, [isMobile, isVisible]);
+
+  if (isMobile || !isVisible) return null;
 
   return (
-    <div 
-      className={`magic-cursor-container ${isPointer ? 'is-clicking' : ''}`}
-      style={{ left: `${cursorPos.x}px`, top: `${cursorPos.y}px` }}
-    >
-      <div className="cursor-default"></div>
-      <div className="cursor-pointer"></div>
-    </div>
+    <>
+      <div 
+        ref={dotRef} 
+        className={`modern-cursor-dot ${isPointer ? 'is-pointer' : ''}`} 
+      />
+      <div 
+        ref={ringRef} 
+        className={`modern-cursor-ring ${isPointer ? 'is-pointer' : ''}`} 
+      />
+    </>
   );
 }

@@ -1,23 +1,31 @@
-import { useState, useEffect } from 'react';
-import { Cursor } from './Cursor';
+import { useState } from 'react';
 import { AboutMe } from './AboutMe';
 import { ProjectCard } from './ProjectCard';
+import { ProjectModal } from './ProjectModal';
+import { GithubContributions } from './GithubContributions';
 import ToolsCarousel from './ToolsCarousel';
 import './MainScreen.css';
 
-export function MainScreen({ onNavigateBlog }) {
-  const [isPointer, setIsPointer] = useState(false);
-  const [isScrolled, setIsScrolled] = useState(false);
-  const [currentPage, setCurrentPage] = useState(1);
-  const projectsPerPage = 4;
+export function MainScreen() {
+  const [selectedProject, setSelectedProject] = useState(null);
+  const [projectPage, setProjectPage] = useState(0);
+  const [toastMessage, setToastMessage] = useState('');
+
   const [projects] = useState([
     {
       id: 1,
-      name: 'AGENCIA DE PUBLICIDAD Y PROMOCION DIGITAL GRAVITAS',
+      name: 'AGENCIA DE MARKETING GRAVITAS',
       image: `${import.meta.env.BASE_URL}gravitas.png`,
       github: '',
-      description: 'Plataforma integra para el desarrollo en el area de marketing digital para abogados.',
+      tags: ['React', 'Marketing TI', 'SaaS', 'Business Architecture'],
+      description: 'Plataforma integral orientada a la gestión y desarrollo estratégico en el área de marketing digital para profesionales y firmas jurídicas.',
+      details: 'Diseñada para automatizar la captación de prospectos, estructurar pipelines comerciales y ofrecer métricas analíticas claras de rendimiento.',
       modules: [
+        { name: 'Panel de control de prospectos', completed: true },
+        { name: 'Módulo de métricas publicitarias', completed: true },
+        { name: 'Integración CRM & Agenda', completed: true },
+        { name: 'Generador de reportes de rendimiento', completed: true },
+        { name: 'Módulo de autenticación por roles', completed: true }
       ]
     },
     {
@@ -25,34 +33,38 @@ export function MainScreen({ onNavigateBlog }) {
       name: 'GYM TRACKER COLOSSUS',
       image: `${import.meta.env.BASE_URL}gymtrack.png`,
       github: 'https://github.com/SJTG/Gym-Tracker-Colossus',
-      description: 'Una simple app para poder registrar mis entrenamientos, en vez de realizarlo en la aplicacion de notas. Todavia estoy pensando un mejor nombre',
+      tags: ['React', 'State Management', 'Fitness Tech', 'Bases de Datos'],
+      description: 'Aplicación web diseñada para registrar, cuantificar y periodizar entrenamientos de sobrecarga progresiva sin la fricción de apps de notas.',
+      details: 'Cronometraje de series y descansos, persistencia de cargas, cálculo de volumen de entrenamiento por grupo muscular y seguimiento visual del esfuerzo.',
       modules: [
-        { name: 'Creador de ejercicios', completed: true },
-        { name: 'Constructor de rutinas', completed: true },
-        { name: 'Asignador de calendario', completed: true },
-        { name: 'Visualizador de sets', completed: true },
-        { name: 'Input de carga', completed: true },
-        { name: 'Checklist de progreso', completed: true },
-        { name: 'Cronometro de ejercicios', completed: true },
-        { name: 'Cronometro de descanso', completed: true },
-        { name: 'Base de datos', completed: true }
+        { name: 'Creador dinámico de ejercicios', completed: true },
+        { name: 'Constructor de rutinas y microciclos', completed: true },
+        { name: 'Asignador de calendario semanal', completed: true },
+        { name: 'Visualizador de sets y RPE', completed: true },
+        { name: 'Input inteligente de carga y repeticiones', completed: true },
+        { name: 'Checklist de progresión histórica', completed: true },
+        { name: 'Cronómetro activo de series', completed: true },
+        { name: 'Cronómetro de descanso automático', completed: true },
+        { name: 'Base de datos y persistencia', completed: true }
       ]
     },
     {
       id: 3,
-      name: 'DEMETER PROTOCOL',
-      image: `${import.meta.env.BASE_URL}demeter.png`,
+      name: 'MIDNIGHT',
+      image: `${import.meta.env.BASE_URL}midnight.jpg`,
       github: '',
-      description: 'Un videojuego en tercera persona en el motor Godot basado en la idea de restauracion del ecosistema',
+      tags: ['Godot Engine', 'Terror Psicológico', 'Audio 3D Binaural', 'Atmósfera'],
+      description: 'Videojuego de terror psicológico en primera persona desarrollado en Godot Engine. Ambientado dentro de un automóvil varado en una ruta desolada en mitad de la noche.',
+      details: 'Diseñado bajo una premisa claustrofóbica de supervivencia pasiva: gestión de batería y tablero eléctrico, visión limitada por empañamiento del parabrisas y espejos retrovisores, ambientación sonora 3D posicional y eventos dinámicos en la oscuridad exterior.',
       modules: [
-        { name: 'Sistema de interaccion', completed:false },
-        { name: 'Gestor de estado de las plantas', completed: false },
-        { name: 'Medidor de radiacion', completed: false },
-        { name: 'Terminal: Simulador de misiones', completed: false },
-        { name: 'Terminal: Gestion de inventario', completed: false },
-        { name: 'Sistema de recetas', completed: false },
-        { name: 'Analizador de ADN', completed: false },
-        { name: 'Ciclo de dias', completed: false }
+        { name: 'Física e interactividad de cabina', completed: true },
+        { name: 'Gestión de batería y tablero eléctrico', completed: true },
+        { name: 'Sistema de audio ambiental y 3D posicional', completed: true },
+        { name: 'Shader de empañado y limpiaparabrisas', completed: true },
+        { name: 'Comportamiento de amenazas en la oscuridad', completed: true },
+        { name: 'Sistema de radio y frecuencias analógicas', completed: false },
+        { name: 'Mecánicas de eventos psicológicos aleatorios', completed: false },
+        { name: 'Optimización de iluminación y niebla volumétrica', completed: false }
       ]
     },
     {
@@ -60,211 +72,279 @@ export function MainScreen({ onNavigateBlog }) {
       name: 'RITMO FIT MOBILE',
       image: `${import.meta.env.BASE_URL}ritmofit.png`,
       github: 'https://github.com/sofiacanzian/Apps_Grupo9_ReactNative',
-      description: 'Proyecto universitario gestor de ingresos, clases y ratings de un gimnasio. Hecho con expo.',
+      tags: ['React Native', 'Expo', 'Mobile UX', 'Gestión de Acceso'],
+      description: 'Aplicación móvil universitaria orientada a la gestión integral de membresías, ingreso por credenciales digitales y reserva de clases para centros de fitness.',
+      details: 'Proyecto colaborativo enfocado en la experiencia del usuario móvil, integración con servicios en tiempo real y flujo rápido de verificación en recepción.',
       modules: [
+        { name: 'Autenticación y perfil de usuario', completed: true },
+        { name: 'Gestor de credenciales y acceso QR', completed: true },
+        { name: 'Reserva y cupos de clases en vivo', completed: true },
+        { name: 'Sistema de calificación y feedback', completed: true },
+        { name: 'Panel de notificaciones de entrenamiento', completed: true }
       ]
     },
     {
       id: 5,
-      name: 'Portfolio',
-      image: `${import.meta.env.BASE_URL}Santrav.png`,
+      name: 'PORTFOLIO PERSONAL',
+      image: null,
       github: 'https://github.com/SJTG/santrav-portfolio',
-      description: 'Una pagina web en donde pueda trackear mis proyectos de manera rapida y sencilla.',
+      tags: ['React', 'Vite', 'Look Paper', 'GitHub API'],
+      description: 'Espacio personal con estética paper editorial y minimalista, conectado a la API de GitHub en tiempo real para visualizar contribuciones y repositorios.',
+      details: 'Construido sin dependencias superfluas ni artefactos visuales artificiales; enfocado en la legibilidad, la calma visual y la claridad técnica.',
       modules: [
+        { name: 'Integración API de GitHub en vivo', completed: true },
+        { name: 'Diseño editorial paper y tipografía Lora', completed: true },
+        { name: 'Estructuración modular de componentes', completed: true },
+        { name: 'Ficha técnica interactiva de proyectos', completed: true },
+        { name: 'Optimización de rendimiento y accesibilidad', completed: true }
       ]
     }
   ]);
 
-  useEffect(() => {
-    const handleMouseOver = (e) => {
-      const target = e.target;
-      const isClickable = target.closest('a') || target.closest('button') || window.getComputedStyle(target).cursor === 'pointer';
-      setIsPointer(!!isClickable);
-    };
-    window.addEventListener('mouseover', handleMouseOver);
-    return () => window.removeEventListener('mouseover', handleMouseOver);
-  }, []);
+  const showToast = (msg) => {
+    setToastMessage(msg);
+    setTimeout(() => setToastMessage(''), 3000);
+  };
 
-  useEffect(() => {
-    // Detectar scroll para cambiar entre navbar superior y lateral
-    const handleScroll = () => {
-      const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-      setIsScrolled(scrollTop > 100);
-    };
-
-    // Configurar scroll suave para enlaces internos
-    const handleAnchorClick = (e) => {
-      const anchor = e.target.closest('a[href^="#"]');
-      if (anchor) {
-        e.preventDefault();
-        const targetId = anchor.getAttribute('href').slice(1);
-        const targetElement = document.getElementById(targetId);
-        if (targetElement) {
-          targetElement.scrollIntoView({
-            behavior: 'smooth',
-            block: 'start'
-          });
-        }
-      }
-    };
-
-    // Detectar visibilidad de proyectos y herramientas para animaciones
-    const observerOptions = {
-      threshold: 0.1,
-      rootMargin: '0px 0px -50px 0px'
-    };
-
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.style.opacity = '1';
-          entry.target.style.transform = 'translateY(0)';
-        }
-      });
-    }, observerOptions);
-
-    // Observar proyectos
-    const projectsGrid = document.querySelector('.projects-grid');
-    if (projectsGrid) {
-      const projectCards = projectsGrid.querySelectorAll('.project-card');
-      projectCards.forEach(card => observer.observe(card));
-    }
-
-    // Observar herramientas
-    const toolsSection = document.querySelector('.tools-section');
-    if (toolsSection) {
-      observer.observe(toolsSection);
-    }
-
-    window.addEventListener('scroll', handleScroll);
-    document.addEventListener('click', handleAnchorClick);
-    
-    return () => {
-      window.removeEventListener('scroll', handleScroll);
-      document.removeEventListener('click', handleAnchorClick);
-      observer.disconnect();
-    };
-  }, []);
+  const handleCopyEmail = () => {
+    navigator.clipboard.writeText('santinotravasso@gmail.com');
+    showToast('Correo copiado: santinotravasso@gmail.com');
+  };
 
   const calculateProgress = (modules) => {
-    if (!modules || modules.length === 0) {
-      return 100; // Si no hay módulos, el proyecto está terminado
-    }
+    if (!modules || modules.length === 0) return 100;
     const completed = modules.filter(m => m.completed).length;
     return Math.round((completed / modules.length) * 100);
   };
 
-  // Calcular proyectos para la página actual
-  const totalPages = Math.ceil(projects.length / projectsPerPage);
-  const startIndex = (currentPage - 1) * projectsPerPage;
-  const endIndex = startIndex + projectsPerPage;
-  const currentProjects = projects.slice(startIndex, endIndex);
-  
-  // Estado para controlar animación
-  const [isAnimating, setIsAnimating] = useState(false);
-
-  // Manejadores de paginación con animación
-  const handleNextPage = () => {
-    if (currentPage < totalPages) {
-      setIsAnimating(true);
-      setTimeout(() => {
-        setCurrentPage(prev => prev + 1);
-        setIsAnimating(false);
-      }, 300);
-    }
-  };
-
-  const handlePrevPage = () => {
-    if (currentPage > 1) {
-      setIsAnimating(true);
-      setTimeout(() => {
-        setCurrentPage(prev => prev - 1);
-        setIsAnimating(false);
-      }, 300);
-    }
-  };
+  // Carousel Pagination: maximum 4 projects per page
+  const projectsPerPage = 4;
+  const totalProjectPages = Math.ceil(projects.length / projectsPerPage);
+  const currentProjects = projects.slice(
+    projectPage * projectsPerPage,
+    (projectPage + 1) * projectsPerPage
+  );
 
   return (
-    <div className="modern-layout">
-      <Cursor isPointer={isPointer} />
+    <div className="paper-page-layout">
+      {/* Toast Notification */}
+      {toastMessage && (
+        <div className="paper-toast">
+          <span>✓</span>
+          <span>{toastMessage}</span>
+        </div>
+      )}
 
-      <nav className={`nav-bar ${isScrolled ? 'nav-bar-hidden' : ''}`}>
-        <span className="nav-logo">SANTINO JTG</span>
-        <div className="nav-links">
-          <a href="#sobre-mi" className="nav-link">SOBRE MÍ</a>
-          <a href="#proyectos" className="nav-link">PROYECTOS</a>
-          <a href="#herramientas" className="nav-link">HERRAMIENTAS</a>
-          <a href="#" className="nav-link disabled" onClick={(e) => {
-            e.preventDefault();
-          }}>BLOG</a>
-          <a href="https://www.linkedin.com/in/santino-travasso-garnier-0144572b9/" className="nav-link" target="_blank" rel="noopener noreferrer">
-            LINKEDIN
+      {/* Project Deep Details Modal */}
+      <ProjectModal 
+        project={selectedProject} 
+        onClose={() => setSelectedProject(null)} 
+      />
+
+      {/* Top Paper Header */}
+      <header className="paper-navbar">
+        <div className="navbar-inner">
+          <a href="#" className="navbar-brand-paper">
+            <span className="brand-dot-paper"></span>
+            <span className="brand-title-paper">Santino Travasso</span>
+            <span className="brand-role-badge">GTI</span>
           </a>
-        </div>
-        <div className="nav-info">BUENOS AIRES | 2026</div>
-      </nav>
 
-      <nav className={`nav-lateral ${isScrolled ? 'nav-lateral-visible' : ''}`}>
-        <div className="nav-lateral-content">
-          <span className="nav-lateral-logo">S</span>
-          <div className="nav-lateral-links">
-            <a href="#sobre-mi" className="nav-lateral-link" title="Sobre Mí">S</a>
-            <a href="#proyectos" className="nav-lateral-link" title="Proyectos">P</a>
-            <a href="#herramientas" className="nav-lateral-link" title="Herramientas">H</a>
-            <a href="#" className="nav-lateral-link disabled" onClick={(e) => {
-              e.preventDefault();
-            }} title="Blog">B</a>
-            <a href="https://www.linkedin.com/in/santino-travasso-garnier-0144572b9/" className="nav-lateral-link" title="LinkedIn" target="_blank" rel="noopener noreferrer">L</a>
+          <nav className="navbar-links-paper">
+            <a href="#sobre-mi" className="nav-anchor-paper">Sobre Mí</a>
+            <a href="#proyectos" className="nav-anchor-paper">Proyectos</a>
+            <a href="#github" className="nav-anchor-paper">Actividad Git</a>
+            <a href="#herramientas" className="nav-anchor-paper">Tecnologías</a>
+            <a 
+              href="https://www.linkedin.com/in/santino-travasso-garnier-0144572b9/" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              className="nav-btn-linkedin-paper"
+            >
+              LinkedIn ↗
+            </a>
+          </nav>
+        </div>
+      </header>
+
+      {/* Main Flow */}
+      <main className="paper-main-flow">
+        {/* HERO SECTION - Relaxed, Human & Paper Editorial */}
+        <section className="hero-section-paper">
+          <div className="hero-container-paper">
+            <span className="section-eyebrow">Licenciatura en Gestión de TI & Desarrollo de Software</span>
+            
+            <h1 className="hero-title-paper">
+              Santino Joaquin Travasso Garnier
+            </h1>
+
+            <p className="hero-lead-paper">
+              Estudiante de Gestión de Tecnologías de la Información y desarrollador de software. 
+              Enfocado en crear herramientas claras, funcionales y con propósito, entendiendo el código como el medio para resolver problemas concretos.
+            </p>
+
+            <div className="hero-actions-paper">
+              <a href="#proyectos" className="paper-cta-primary">
+                Ver Proyectos ↓
+              </a>
+              <a href="#github" className="paper-cta-secondary">
+                Actividad GitHub
+              </a>
+              <button 
+                type="button" 
+                className="paper-cta-ghost"
+                onClick={handleCopyEmail}
+              >
+                Copiar Email ✉
+              </button>
+            </div>
           </div>
-          <div className="nav-lateral-info">2026</div>
-        </div>
-      </nav>
-
-      <main className="content-stack">
-        <section className="hero">
-          <h1 className="title">SANTINO</h1>
-          <p className="subtitle">LICENCIADO EN GESTION DE TECNOLOGIA DE LA INFORMACION</p>
         </section>
 
+        {/* ABOUT ME SECTION */}
         <AboutMe id="sobre-mi" />
 
-        <section id="proyectos" className={`projects-grid ${isAnimating ? 'projects-transition' : ''}`}>
-          {currentProjects.map(project => (
-            <ProjectCard 
-              key={project.id} 
-              project={project} 
-              calculateProgress={calculateProgress} 
-            />
-          ))}
+        {/* PROJECTS SECTION (Max 4 per page in carousel style, no categories) */}
+        <section id="proyectos" className="projects-section-paper">
+          <div className="projects-header-paper">
+            <div>
+              <span className="section-eyebrow">Proyectos seleccionados</span>
+              <h2 className="projects-heading-paper">Trabajos y Desarrollos</h2>
+              <p className="projects-subtitle-paper">
+                Plataformas de gestión, aplicaciones móviles y exploración de mecánicas de juego en Godot.
+              </p>
+            </div>
+
+            {totalProjectPages > 1 && (
+              <div className="projects-carousel-bar">
+                <button 
+                  type="button" 
+                  className="carousel-btn prev"
+                  onClick={() => setProjectPage(p => Math.max(0, p - 1))}
+                  disabled={projectPage === 0}
+                  aria-label="Página anterior"
+                >
+                  ←
+                </button>
+                
+                <span className="carousel-page-indicator">
+                  {projectPage + 1} de {totalProjectPages}
+                </span>
+
+                <button 
+                  type="button" 
+                  className="carousel-btn next"
+                  onClick={() => setProjectPage(p => Math.min(totalProjectPages - 1, p + 1))}
+                  disabled={projectPage === totalProjectPages - 1}
+                  aria-label="Página siguiente"
+                >
+                  →
+                </button>
+              </div>
+            )}
+          </div>
+
+          {/* Projects Grid (Max 4 cards) */}
+          <div className="projects-grid-paper">
+            {currentProjects.map((project) => (
+              <ProjectCard 
+                key={project.id} 
+                project={project} 
+                calculateProgress={calculateProgress}
+                onSelectProject={(p) => setSelectedProject(p)}
+              />
+            ))}
+          </div>
+
+          {/* Bottom Carousel Controls for convenient navigation */}
+          {totalProjectPages > 1 && (
+            <div className="projects-carousel-footer">
+              <button 
+                type="button" 
+                className="carousel-btn prev"
+                onClick={() => setProjectPage(p => Math.max(0, p - 1))}
+                disabled={projectPage === 0}
+              >
+                ← Proyectos anteriores
+              </button>
+
+              <div className="carousel-dots-group">
+                {Array.from({ length: totalProjectPages }).map((_, idx) => (
+                  <button
+                    key={idx}
+                    type="button"
+                    className={`carousel-page-dot ${idx === projectPage ? 'active' : ''}`}
+                    onClick={() => setProjectPage(idx)}
+                    aria-label={`Página ${idx + 1}`}
+                  >
+                    {idx + 1}
+                  </button>
+                ))}
+              </div>
+
+              <button 
+                type="button" 
+                className="carousel-btn next"
+                onClick={() => setProjectPage(p => Math.min(totalProjectPages - 1, p + 1))}
+                disabled={projectPage === totalProjectPages - 1}
+              >
+                Más proyectos →
+              </button>
+            </div>
+          )}
         </section>
 
-        {totalPages > 1 && (
-          <div className="projects-pagination">
-            <button 
-              className="pagination-btn prev-btn"
-              onClick={handlePrevPage}
-              disabled={currentPage === 1}
-            >
-              ‹
-            </button>
-            <span className="pagination-info">
-              Página {currentPage} de {totalPages}
-            </span>
-            <button 
-              className="pagination-btn next-btn"
-              onClick={handleNextPage}
-              disabled={currentPage === totalPages}
-            >
-              ›
-            </button>
+        {/* LIVE GITHUB CONTRIBUTIONS DASHBOARD */}
+        <GithubContributions />
+
+        {/* TECHNICAL ARSENAL / TECNOLOGÍAS */}
+        <ToolsCarousel />
+
+        {/* CONTACT BANNER */}
+        <section className="contact-section-paper">
+          <div className="paper-card contact-card-paper">
+            <span className="section-eyebrow">Contacto & Conexión</span>
+            <h2 className="contact-heading-paper">Conversemos sobre tecnología o nuevos proyectos</h2>
+            <p className="contact-text-paper">
+              Disponible para colaborar en desarrollo de software, gestión tecnológica o intercambio de ideas.
+            </p>
+            
+            <div className="contact-actions-paper">
+              <button 
+                type="button" 
+                className="contact-btn-email"
+                onClick={handleCopyEmail}
+              >
+                santinotravasso@gmail.com (Copiar)
+              </button>
+              <a 
+                href="https://www.linkedin.com/in/santino-travasso-garnier-0144572b9/" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="contact-btn-linkedin"
+              >
+                Perfil de LinkedIn ↗
+              </a>
+            </div>
           </div>
-        )}
+        </section>
       </main>
 
-      <ToolsCarousel />
-
-      <footer className="footer">
-        <p>SANTRAV-SOFTWARE & HARDWARE © 2026</p>
+      {/* Clean Paper Footer */}
+      <footer className="footer-paper">
+        <div className="footer-inner-paper">
+          <div className="footer-left-paper">
+            <strong>Santino Joaquin Travasso Garnier</strong>
+            <span>Licenciatura en Gestión de Tecnologías de la Información</span>
+          </div>
+          <div className="footer-right-paper">
+            <span>Buenos Aires, Argentina</span>
+            <span className="footer-separator">•</span>
+            <a href="https://github.com/SJTG" target="_blank" rel="noreferrer">GitHub</a>
+            <span className="footer-separator">•</span>
+            <a href="https://www.linkedin.com/in/santino-travasso-garnier-0144572b9/" target="_blank" rel="noreferrer">LinkedIn</a>
+          </div>
+        </div>
       </footer>
     </div>
   );

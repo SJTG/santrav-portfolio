@@ -287,7 +287,7 @@ export function Blog({ onNavigateHome }) {
       </div>
 
       <footer className="blog-footer">
-        <p>© 2026 SANTRAV-SOFTWARE | Todos los derechos reservados</p>
+        <p>© 2026 Santino Joaquin Travasso Garnier | Software & IT Management</p>
       </footer>
     </div>
   )

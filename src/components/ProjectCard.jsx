@@ -1,65 +1,100 @@
 import { useState } from 'react';
+import './ProjectCard.css';
 
-export function ProjectCard({ project, calculateProgress }) {
-  const [scrollIndex, setScrollIndex] = useState(0);
-  const visibleCount = 3; 
-
+export function ProjectCard({ project, calculateProgress, onSelectProject }) {
+  const [showModules, setShowModules] = useState(false);
   const progress = calculateProgress(project.modules);
   const isCompleted = progress === 100;
   const hasGithub = project.github && project.github.trim() !== '';
   const modules = project.modules || [];
 
-  const canPrev = scrollIndex > 0;
-  const canNext = scrollIndex + visibleCount < modules.length;
-
-  const visibleModules = modules.slice(scrollIndex, scrollIndex + visibleCount);
-
   return (
-    <div className="project-card">
-      <div className="img-container">
-        <img src={project.image} alt={project.name} />
-        <div className="progress-overlay">
-          {isCompleted ? 'TERMINADO' : `${progress}%`}
-        </div>
-      </div>
-      <div className="card-info">
-        <div className="card-top">
-          <h2>{project.name}</h2>
-          {hasGithub ? (
-            <a href={project.github} target="_blank" rel="noreferrer" className="gh-link">GITHUB</a>
-          ) : (
-            <span className="gh-link disabled">GITHUB</span>
-          )}
-        </div>
-        <p>{project.description}</p>
-        {modules.length > 0 ? (
-          <div className="module-row-wrapper">
-            <button
-              className="module-arrow"
-              onClick={() => setScrollIndex(i => i - 1)}
-              disabled={!canPrev}
-            >‹</button>
-            <div className="module-row">
-              {visibleModules.map((m, i) => (
-                <span key={i} className={`dot ${m.completed ? 'active' : ''}`}>
-                  {m.name}
-                </span>
-              ))}
-            </div>
-            <button
-              className="module-arrow"
-              onClick={() => setScrollIndex(i => i + 1)}
-              disabled={!canNext}
-            >›</button>
-          </div>
+    <article className="paper-card project-card-paper">
+      <div className="card-media-paper">
+        {project.image ? (
+          <img 
+            src={project.image} 
+            alt={project.name} 
+            className="card-img-paper"
+            loading="lazy"
+          />
         ) : (
-          <div className="module-row-wrapper">
-            <div className="module-row">
-              <span className="dot active">PROYECTO TERMINADO</span>
-            </div>
+          <div className="card-img-placeholder">
+            <span>{project.name}</span>
           </div>
         )}
+
+        <div className="card-badges-paper">
+          <span className={`card-progress-pill ${isCompleted ? 'is-done' : 'is-wip'}`}>
+            {isCompleted ? 'Completado' : `${progress}%`}
+          </span>
+        </div>
       </div>
-    </div>
+
+      <div className="card-content-paper">
+        <h3 className="card-title-paper">{project.name}</h3>
+        <p className="card-desc-paper">{project.description}</p>
+
+        {project.tags && project.tags.length > 0 && (
+          <div className="card-tags-paper">
+            {project.tags.map((t, idx) => (
+              <span key={idx} className="tag-paper">{t}</span>
+            ))}
+          </div>
+        )}
+
+        {/* Modules Accordion */}
+        {modules.length > 0 && (
+          <div className="card-modules-paper">
+            <button 
+              type="button" 
+              className="modules-toggle-paper"
+              onClick={() => setShowModules(!showModules)}
+            >
+              <span>Módulos ({modules.filter(m => m.completed).length}/{modules.length})</span>
+              <span className="toggle-symbol">{showModules ? '−' : '+'}</span>
+            </button>
+
+            {showModules && (
+              <div className="modules-dropdown-paper">
+                {modules.map((m, i) => (
+                  <div key={i} className={`module-line-paper ${m.completed ? 'done' : 'wip'}`}>
+                    <span className="mod-check">{m.completed ? '✓' : '—'}</span>
+                    <span className="mod-name-text">{m.name}</span>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        )}
+
+        {/* Action Links */}
+        <div className="card-footer-paper">
+          {hasGithub ? (
+            <a 
+              href={project.github} 
+              target="_blank" 
+              rel="noreferrer" 
+              className="paper-btn-link"
+            >
+              <span>GitHub</span>
+              <span className="link-arrow">↗</span>
+            </a>
+          ) : (
+            <span className="paper-btn-link disabled">Repositorio Privado</span>
+          )}
+
+          {onSelectProject && (
+            <button 
+              type="button" 
+              className="paper-btn-details"
+              onClick={() => onSelectProject(project)}
+            >
+              Ver Ficha Técnica
+            </button>
+          )}
+        </div>
+      </div>
+    </article>
   );
 }

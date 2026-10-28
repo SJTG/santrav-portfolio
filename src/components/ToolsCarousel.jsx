@@ -1,154 +1,214 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useMemo } from 'react';
 import './ToolsCarousel.css';
 
-const ToolsCarousel = () => {
-  const [currentPage, setCurrentPage] = useState(0);
+const allTools = [
+  // --- CORE & WEB ---
+  { 
+    id: 1, 
+    name: 'JavaScript', 
+    category: 'frontend',
+    categoryName: 'Frontend',
+    level: 'ES6+ / Avanzado',
+    description: 'Lógica e interactividad del lado del cliente y servidor.', 
+    image: `${import.meta.env.BASE_URL}Herramientas/javascript.png`
+  },
+  { 
+    id: 2, 
+    name: 'React', 
+    category: 'frontend',
+    categoryName: 'Frontend',
+    level: 'SPA / Hooks',
+    description: 'Construcción de interfaces de usuario modulares y reactivas.', 
+    image: `${import.meta.env.BASE_URL}Herramientas/react.png`
+  },
+  { 
+    id: 3, 
+    name: 'HTML5', 
+    category: 'frontend',
+    categoryName: 'Frontend',
+    level: 'Semántica Web',
+    description: 'Estructuración accesible, limpia y optimizada para SEO.', 
+    image: `${import.meta.env.BASE_URL}Herramientas/html.png`
+  },
+  { 
+    id: 4, 
+    name: 'CSS3', 
+    category: 'frontend',
+    categoryName: 'Frontend',
+    level: 'Layout & Estilos',
+    description: 'Diseño adaptable, Flexbox, Grid y tipografía cuidada.', 
+    image: `${import.meta.env.BASE_URL}Herramientas/css.png`
+  },
 
-const tools = [
-    // --- CORE & WEB ---
-    { 
-      id: 1, 
-      name: 'JavaScript', 
-      description: 'Lógica e interactividad del lado del cliente y servidor (ES6+).', 
-      image: `${import.meta.env.BASE_URL}Herramientas/javascript.png` 
-    },
-    { 
-      id: 2, 
-      name: 'React', 
-      description: 'Construcción de interfaces de usuario modernas y SPA.', 
-      image: `${import.meta.env.BASE_URL}Herramientas/react.png` 
-    },
-    { 
-      id: 3, 
-      name: 'HTML5', 
-      description: 'Estructura semántica y accesibilidad web.', 
-      image: `${import.meta.env.BASE_URL}Herramientas/html.png` 
-    },
-    { 
-      id: 4, 
-      name: 'CSS3', 
-      description: 'Diseño responsivo, Grid, Flexbox y animaciones.', 
-      image: `${import.meta.env.BASE_URL}Herramientas/css.png` 
-    },
+  // --- BACKEND & DATA ---
+  { 
+    id: 5, 
+    name: 'Java', 
+    category: 'backend',
+    categoryName: 'Backend & Datos',
+    level: 'POO & Arquitectura',
+    description: 'Programación orientada a objetos y lógica estructurada.', 
+    image: `${import.meta.env.BASE_URL}Herramientas/java.png`
+  },
+  { 
+    id: 6, 
+    name: 'SQL', 
+    category: 'backend',
+    categoryName: 'Backend & Datos',
+    level: 'Bases Relacionales',
+    description: 'Modelado relacional, integridad referencial y consultas analíticas.', 
+    image: `${import.meta.env.BASE_URL}Herramientas/SQL.png`
+  },
+  { 
+    id: 7, 
+    name: 'MongoDB', 
+    category: 'backend',
+    categoryName: 'Backend & Datos',
+    level: 'NoSQL Documental',
+    description: 'Modelos de documentos flexibles para prototipado ágil.', 
+    image: `${import.meta.env.BASE_URL}Herramientas/mongodb.png`
+  },
+  { 
+    id: 8, 
+    name: 'Redis', 
+    category: 'backend',
+    categoryName: 'Backend & Datos',
+    level: 'Caché en Memoria',
+    description: 'Persistencia clave-valor para aceleración y sesiones.', 
+    image: `${import.meta.env.BASE_URL}Herramientas/Redis.png`
+  },
+  { 
+    id: 9, 
+    name: 'Cassandra', 
+    category: 'backend',
+    categoryName: 'Backend & Datos',
+    level: 'Datos Distribuidos',
+    description: 'Gestión y tolerancia a fallos en entornos de alta concurrencia.', 
+    image: `${import.meta.env.BASE_URL}Herramientas/Cassandra.png`
+  },
+  { 
+    id: 10, 
+    name: 'Neo4j', 
+    category: 'backend',
+    categoryName: 'Backend & Datos',
+    level: 'Grafos & Relaciones',
+    description: 'Base de datos de grafos para mapeo de entidades interconectadas.', 
+    image: `${import.meta.env.BASE_URL}Herramientas/Neo4j.png`
+  },
 
-    // --- BACKEND & DATA (SQL/NoSQL) ---
-    { 
-      id: 5, 
-      name: 'JAVA', 
-      description: 'Programación orientada a objetos y arquitectura de backend robusta.', 
-      image: `${import.meta.env.BASE_URL}Herramientas/java.png` 
-    },
-    { 
-      id: 6, 
-      name: 'SQL', 
-      description: 'Gestión y consultas complejas en bases de datos relacionales.', 
-      image: `${import.meta.env.BASE_URL}Herramientas/SQL.png` 
-    },
-    { 
-      id: 7, 
-      name: 'MongoDB', 
-      description: 'Base de datos orientada a documentos para aplicaciones escalables.', 
-      image: `${import.meta.env.BASE_URL}Herramientas/mongodb.png` 
-    },
-    { 
-      id: 8, 
-      name: 'Redis', 
-      description: 'Almacenamiento en memoria para caché y alta velocidad.', 
-      image: `${import.meta.env.BASE_URL}Herramientas/Redis.png` 
-    },
-    { 
-      id: 9, 
-      name: 'Cassandra', 
-      description: 'Gestión de grandes volúmenes de datos distribuidos.', 
-      image: `${import.meta.env.BASE_URL}Herramientas/Cassandra.png` 
-    },
-    { 
-      id: 10, 
-      name: 'Neo4j', 
-      description: 'Base de datos orientada a grafos para relaciones complejas.', 
-      image: `${import.meta.env.BASE_URL}Herramientas/Neo4j.png` 
-    },
+  // --- MOBILE ---
+  { 
+    id: 11, 
+    name: 'Android Studio', 
+    category: 'mobile',
+    categoryName: 'Mobile',
+    level: 'Ecosistema Android',
+    description: 'Desarrollo e inspección nativa en dispositivos y emuladores.', 
+    image: `${import.meta.env.BASE_URL}Herramientas/Android.png`
+  },
+  { 
+    id: 12, 
+    name: 'Expo & React Native', 
+    category: 'mobile',
+    categoryName: 'Mobile',
+    level: 'Multiplataforma',
+    description: 'Desarrollo de aplicaciones móviles multiplataforma.', 
+    image: `${import.meta.env.BASE_URL}Herramientas/expo.png`
+  },
 
-    // --- MOBILE ---
-    { 
-      id: 11, 
-      name: 'Android Studio', 
-      description: 'Desarrollo nativo de aplicaciones móviles en ecosistema Android.', 
-      image: `${import.meta.env.BASE_URL}Herramientas/Android.png` 
-    },
-    { 
-      id: 12, 
-      name: 'Expo', 
-      description: 'Iteración rápida y despliegue para aplicaciones React Native.', 
-      image: `${import.meta.env.BASE_URL}Herramientas/expo.png` 
-    },
+  // --- CREATIVE & ENGINE ---
+  { 
+    id: 13, 
+    name: 'Godot Engine', 
+    category: 'creative',
+    categoryName: 'Creative & 3D',
+    level: 'Game Development',
+    description: 'Desarrollo de videojuegos 2D/3D, física y mecánicas lúdicas.', 
+    image: `${import.meta.env.BASE_URL}Herramientas/godot.png`
+  },
+  { 
+    id: 14, 
+    name: 'Blender', 
+    category: 'creative',
+    categoryName: 'Creative & 3D',
+    level: 'Modelado 3D',
+    description: 'Modelado tridimensional, iluminación y optimización de props.', 
+    image: `${import.meta.env.BASE_URL}Herramientas/blender.png`
+  },
+  { 
+    id: 15, 
+    name: 'Photoshop', 
+    category: 'creative',
+    categoryName: 'Creative & 3D',
+    level: 'Composición Visual',
+    description: 'Edición gráfica, diagramación y prototipos visuales.', 
+    image: `${import.meta.env.BASE_URL}Herramientas/photoshop.png`
+  }
+];
 
-    // --- CREATIVE & ENGINE ---
-    { 
-      id: 13, 
-      name: 'Godot Engine', 
-      description: 'Desarrollo de videojuegos 2D/3D y sistemas interactivos.', 
-      image: `${import.meta.env.BASE_URL}Herramientas/godot.png` 
-    },
-    { 
-      id: 14, 
-      name: 'Blender', 
-      description: 'Modelado 3D, renderizado y creación de assets.', 
-      image: `${import.meta.env.BASE_URL}Herramientas/blender.png` 
-    },
-    { 
-      id: 15, 
-      name: 'Photoshop', 
-      description: 'Edición de imagen, diseño de UI y composición gráfica.', 
-      image: `${import.meta.env.BASE_URL}Herramientas/photoshop.png` 
-    }
-  ];
+export const ToolsCarousel = () => {
+  const [activeCategory, setActiveCategory] = useState('all');
 
-  const itemsPerPage = 6;
-  const totalPages = Math.ceil(tools.length / itemsPerPage);
-
-  const handleNext = () => {
-    setCurrentPage((prevPage) => (prevPage + 1) % totalPages);
-  };
-
-  const handlePrev = () => {
-    setCurrentPage((prevPage) => (prevPage - 1 + totalPages) % totalPages);
-  };
-
-  const getCurrentPageTools = () => {
-    const startIndex = currentPage * itemsPerPage;
-    return tools.slice(startIndex, startIndex + itemsPerPage);
-  };
+  const filteredTools = useMemo(() => {
+    if (activeCategory === 'all') return allTools;
+    return allTools.filter(t => t.category === activeCategory);
+  }, [activeCategory]);
 
   return (
-    <section id="herramientas" className="tools-section">
-      <h2>Herramientas</h2>
-      <div className="tools-grid">
-        {getCurrentPageTools().map((tool) => (
-          <div key={tool.id} className="tool-card">
-            <img src={tool.image} alt={tool.name} className="tool-card-image" />
-            <h3>{tool.name}</h3>
-            <p>{tool.description}</p>
+    <section id="herramientas" className="tools-section-paper">
+      <div className="paper-card tools-card-paper">
+        <div className="tools-header-paper">
+          <div>
+            <span className="section-eyebrow">Stack técnico</span>
+            <h2 className="tools-heading-paper">Tecnologías</h2>
+            <p className="tools-subtitle-paper">
+              Tecnologías y lenguajes que aplico en desarrollo de software, gestión de datos y motores gráficos.
+            </p>
           </div>
-        ))}
-      </div>
 
-      <div className="carousel-controls">
-        <div className="navigation-arrows">
-          <button 
-            className="arrow-btn"
-            onClick={handlePrev}
-            aria-label="Página anterior"
-          >
-            ‹
-          </button>
-          <button 
-            className="arrow-btn"
-            onClick={handleNext}
-            aria-label="Página siguiente"
-          >
-            ›
-          </button>
+          {/* Filter Pills */}
+          <div className="tools-filters-paper">
+            {[
+              { id: 'all', label: 'Todas (15)' },
+              { id: 'frontend', label: 'Frontend' },
+              { id: 'backend', label: 'Backend & Datos' },
+              { id: 'mobile', label: 'Mobile' },
+              { id: 'creative', label: 'Creative & 3D' }
+            ].map((tab) => (
+              <button
+                key={tab.id}
+                type="button"
+                className={`tool-pill-paper ${activeCategory === tab.id ? 'active' : ''}`}
+                onClick={() => setActiveCategory(tab.id)}
+              >
+                {tab.label}
+              </button>
+            ))}
+          </div>
+        </div>
+
+        {/* Tools Grid */}
+        <div className="tools-grid-paper">
+          {filteredTools.map((tool) => (
+            <div key={tool.id} className="tool-item-paper">
+              <div className="tool-logo-box">
+                <img 
+                  src={tool.image} 
+                  alt={tool.name} 
+                  className="tool-icon-img"
+                  loading="lazy"
+                />
+              </div>
+
+              <div className="tool-info-paper">
+                <div className="tool-name-row">
+                  <h4 className="tool-name-paper">{tool.name}</h4>
+                  <span className="tool-level-paper">{tool.level}</span>
+                </div>
+                <p className="tool-desc-paper">{tool.description}</p>
+              </div>
+            </div>
+          ))}
         </div>
       </div>
     </section>

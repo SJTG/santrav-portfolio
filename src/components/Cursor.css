@@ -1,0 +1,40 @@
+.modern-cursor-dot {
+  position: fixed;
+  top: -4px;
+  left: -4px;
+  width: 8px;
+  height: 8px;
+  background-color: var(--accent-primary, #00f2fe);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 99999;
+  box-shadow: 0 0 10px var(--accent-primary, #00f2fe);
+  transition: opacity 0.15s, background-color 0.25s;
+  will-change: transform;
+}
+
+.modern-cursor-ring {
+  position: fixed;
+  top: -18px;
+  left: -18px;
+  width: 36px;
+  height: 36px;
+  border: 1.5px solid var(--accent-primary, #00f2fe);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 99998;
+  box-shadow: 0 0 15px var(--accent-glow, rgba(0, 242, 254, 0.4));
+  transition: width 0.2s, height 0.2s, border-color 0.25s, background-color 0.2s, opacity 0.2s;
+  will-change: transform;
+}
+
+.modern-cursor-ring.is-pointer {
+  background-color: var(--accent-subtle, rgba(0, 242, 254, 0.15));
+  border-color: #fff;
+  box-shadow: 0 0 25px var(--accent-primary, #00f2fe);
+}
+
+.modern-cursor-dot.is-pointer {
+  transform: scale(0.6);
+  background-color: #fff;
+}
