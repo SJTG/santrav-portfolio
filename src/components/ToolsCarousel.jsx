@@ -106,6 +106,25 @@ const allTools = [
     image: `${import.meta.env.BASE_URL}Herramientas/go.svg`
   },
 
+  { 
+    id: 19, 
+    name: 'Python', 
+    category: 'backend',
+    categoryName: 'Backend & Datos',
+    level: 'Scripting & Automatización',
+    description: 'Scripts, automatización de tareas, análisis de datos y servicios backend.', 
+    image: `${import.meta.env.BASE_URL}Herramientas/python.svg`
+  },
+  { 
+    id: 20, 
+    name: 'JSON', 
+    category: 'backend',
+    categoryName: 'Backend & Datos',
+    level: 'Intercambio de Datos',
+    description: 'Estructuración y serialización de datos para APIs y configuración.', 
+    image: `${import.meta.env.BASE_URL}Herramientas/json.svg`
+  },
+
   // --- MOBILE ---
   { 
     id: 11, 
