@@ -96,6 +96,16 @@ const allTools = [
     image: `${import.meta.env.BASE_URL}Herramientas/Neo4j.png`
   },
 
+  { 
+    id: 16, 
+    name: 'Go', 
+    category: 'backend',
+    categoryName: 'Backend & Datos',
+    level: 'Concurrencia & APIs',
+    description: 'Servicios backend eficientes, goroutines y herramientas de línea de comandos.', 
+    image: `${import.meta.env.BASE_URL}Herramientas/go.svg`
+  },
+
   // --- MOBILE ---
   { 
     id: 11, 
@@ -143,6 +153,26 @@ const allTools = [
     level: 'Composición Visual',
     description: 'Edición gráfica, diagramación y prototipos visuales.', 
     image: `${import.meta.env.BASE_URL}Herramientas/photoshop.png`
+  },
+
+  // --- IA ---
+  { 
+    id: 17, 
+    name: 'Claude', 
+    category: 'ai',
+    categoryName: 'IA',
+    level: 'LLM & Agentes',
+    description: 'Asistencia en desarrollo, integración vía API y flujos agénticos.', 
+    image: `${import.meta.env.BASE_URL}Herramientas/claude.svg`
+  },
+  { 
+    id: 18, 
+    name: 'Gemini', 
+    category: 'ai',
+    categoryName: 'IA',
+    level: 'LLM Multimodal',
+    description: 'Modelos multimodales de Google para generación y análisis de contenido.', 
+    image: `${import.meta.env.BASE_URL}Herramientas/googlegemini.svg`
   }
 ];
 
@@ -169,11 +199,12 @@ export const ToolsCarousel = () => {
           {/* Filter Pills */}
           <div className="tools-filters-paper">
             {[
-              { id: 'all', label: 'Todas (15)' },
+              { id: 'all', label: `Todas (${allTools.length})` },
               { id: 'frontend', label: 'Frontend' },
               { id: 'backend', label: 'Backend & Datos' },
               { id: 'mobile', label: 'Mobile' },
-              { id: 'creative', label: 'Creative & 3D' }
+              { id: 'creative', label: 'Creative & 3D' },
+              { id: 'ai', label: 'IA' }
             ].map((tab) => (
               <button
                 key={tab.id}

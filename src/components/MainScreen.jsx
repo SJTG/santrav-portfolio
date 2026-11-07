@@ -51,7 +51,7 @@ export function MainScreen() {
     {
       id: 3,
       name: 'MIDNIGHT',
-      image: `${import.meta.env.BASE_URL}midnight.jpg`,
+      image: `${import.meta.env.BASE_URL}midnight.webp`,
       github: '',
       tags: ['Godot Engine', 'Terror Psicológico', 'Audio 3D Binaural', 'Atmósfera'],
       description: 'Videojuego de terror psicológico en primera persona desarrollado en Godot Engine. Ambientado dentro de un automóvil varado en una ruta desolada en mitad de la noche.',
@@ -68,20 +68,14 @@ export function MainScreen() {
       ]
     },
     {
-      id: 4,
-      name: 'RITMO FIT MOBILE',
-      image: `${import.meta.env.BASE_URL}ritmofit.png`,
-      github: 'https://github.com/sofiacanzian/Apps_Grupo9_ReactNative',
-      tags: ['React Native', 'Expo', 'Mobile UX', 'Gestión de Acceso'],
-      description: 'Aplicación móvil universitaria orientada a la gestión integral de membresías, ingreso por credenciales digitales y reserva de clases para centros de fitness.',
-      details: 'Proyecto colaborativo enfocado en la experiencia del usuario móvil, integración con servicios en tiempo real y flujo rápido de verificación en recepción.',
-      modules: [
-        { name: 'Autenticación y perfil de usuario', completed: true },
-        { name: 'Gestor de credenciales y acceso QR', completed: true },
-        { name: 'Reserva y cupos de clases en vivo', completed: true },
-        { name: 'Sistema de calificación y feedback', completed: true },
-        { name: 'Panel de notificaciones de entrenamiento', completed: true }
-      ]
+      id: 6,
+      name: 'SHIV',
+      image: `${import.meta.env.BASE_URL}shiv.png`,
+      github: 'https://github.com/SJTG/Shiv',
+      tags: ['Web App', 'BYOK', 'IA Generativa', 'Empleabilidad'],
+      description: 'Aplicación web BYOK (Bring Your Own Key) que adapta tu currículum vitae en base a la oferta laboral a la que te postulás.',
+      details: 'Pegás la oferta, usás tu propia API key y Shiv reescribe y prioriza la experiencia y habilidades de tu CV para alinearlas con los requisitos del puesto.',
+      modules: []
     },
     {
       id: 5,
@@ -97,6 +91,22 @@ export function MainScreen() {
         { name: 'Estructuración modular de componentes', completed: true },
         { name: 'Ficha técnica interactiva de proyectos', completed: true },
         { name: 'Optimización de rendimiento y accesibilidad', completed: true }
+      ]
+    },
+    {
+      id: 4,
+      name: 'RITMO FIT MOBILE',
+      image: `${import.meta.env.BASE_URL}ritmofit.png`,
+      github: 'https://github.com/sofiacanzian/Apps_Grupo9_ReactNative',
+      tags: ['React Native', 'Expo', 'Mobile UX', 'Gestión de Acceso'],
+      description: 'Aplicación móvil universitaria orientada a la gestión integral de membresías, ingreso por credenciales digitales y reserva de clases para centros de fitness.',
+      details: 'Proyecto colaborativo enfocado en la experiencia del usuario móvil, integración con servicios en tiempo real y flujo rápido de verificación en recepción.',
+      modules: [
+        { name: 'Autenticación y perfil de usuario', completed: true },
+        { name: 'Gestor de credenciales y acceso QR', completed: true },
+        { name: 'Reserva y cupos de clases en vivo', completed: true },
+        { name: 'Sistema de calificación y feedback', completed: true },
+        { name: 'Panel de notificaciones de entrenamiento', completed: true }
       ]
     }
   ]);
